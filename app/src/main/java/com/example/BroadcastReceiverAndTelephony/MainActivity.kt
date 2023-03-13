@@ -26,33 +26,41 @@ class MainActivity : AppCompatActivity() {
             val phoneNumber = binding.number.text.toString()
             val message = binding.message.text.toString()
 
-            //starting the service
+            //starting the service that will handle phone state changes
             val intent = Intent(this, ServicePhoneState::class.java)
             startService(intent)
 
             Log.i("Data","Data has been safe")
-            // Guardar los datos en las preferencias compartidas
+
+            //saving phone number and message to shared preferences
             val sharedPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE)
             val editor = sharedPrefs.edit()
             editor.putString("phoneNumber", phoneNumber)
             editor.putString("message", message)
             editor.apply()
 
-
+            //Displaying a toast message to the user
             Toast.makeText(this, "Data has been safe", Toast.LENGTH_SHORT).show()
         }
 
+        //Initializing the broadcast receiver
         broadcastReceiver = MyBroadcastReceiver()
     }
     override fun onStart() {
         super.onStart()
+
+        //Creating an intent filter for phone state changes
         val intentFilter = IntentFilter()
         intentFilter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED)
+
+        //Registering the broadcast receiver with the intent filter when the activity start
         registerReceiver(broadcastReceiver, intentFilter)
     }
 
     override fun onStop() {
         super.onStop()
+
+        //Unregistering the broadcast receiver when the activity stop
         unregisterReceiver(broadcastReceiver)
     }
 }
