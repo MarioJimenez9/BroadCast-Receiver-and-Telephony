@@ -1,4 +1,4 @@
-package com.example.llamada_y_mensaje
+package com.example.BroadcastReceiverAndTelephony
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -13,30 +13,33 @@ class MyBroadcastReceiver : BroadcastReceiver() {
             val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
             if (state == TelephonyManager.EXTRA_STATE_RINGING) {
 
-                // El teléfono está sonando, obtén el número de teléfono que está llamando
+                // Store the phone number that is calling
                 val phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
 
-                Log.i("Telefono",phoneNumber.toString())
+                Log.i("Phone: ",phoneNumber.toString())
+                Log.i("Saved Phone","#####")
 
-                Log.i("Numero Guardado","numero guardado")
-
-                // Obtenemos los datos guardados en las preferencias compartidas
+                // Obte
                 val sharedPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
                 Log.i("myPrefs",sharedPrefs.toString())
                 val savedPhoneNumber = sharedPrefs.getString("phoneNumber", "")
-                Log.i("numero",savedPhoneNumber.toString())
+                Log.i("number",savedPhoneNumber.toString())
                 val savedMessage = sharedPrefs.getString("message", "")
-                Log.i("mensaje",savedMessage.toString())
+                Log.i("meesage",savedMessage.toString())
 
                 // ch
                 if (phoneNumber == savedPhoneNumber) {
                     val smsManager = SmsManager.getDefault()
                     smsManager.sendTextMessage(phoneNumber, null, savedMessage, null, null)
-                    Log.i("Respuesta","Mensaje enviado correctamnete")
-                }else{
-                    Log.i("Respuesta","Hubo un problema al enviar el mensaje")
+                    Log.i("Success","The message was sent")
+                }
+                else{
+                    Log.i("Wrong","The message wasn't sent")
                 }
             }
+        }
+        else{
+            print("No stoi")
         }
     }
 }

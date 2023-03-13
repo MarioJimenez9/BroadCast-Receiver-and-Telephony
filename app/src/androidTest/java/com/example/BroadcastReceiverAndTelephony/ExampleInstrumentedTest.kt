@@ -1,4 +1,4 @@
-package com.example.llamada_y_mensaje
+package com.example.BroadcastReceiverAndTelephony
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.llamada_y_mensaje", appContext.packageName)
+        assertEquals("com.example.BroadcastReceiverAndTelephony", appContext.packageName)
     }
 }
